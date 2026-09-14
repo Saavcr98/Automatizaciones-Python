@@ -2,8 +2,8 @@ import requests
 import json
 import ast
 
-LOGIN_URL = "https://darbzytw9l.execute-api.us-west-1.amazonaws.com/produccionv3/seek-op/dashboard/seekop-dashboards-loggin"
-APPS_URL  = "https://api.sicopweb.com/auth/v3/aplicaciones/"
+LOGIN_URL = "..."
+APPS_URL  = "https://api.sicopweb.com/aplicaciones/"
 
 
 def parsear(texto):
