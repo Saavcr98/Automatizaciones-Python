@@ -5,12 +5,12 @@
 import os
 
 # -- Google Sheets --------------------------------------------
-SPREADSHEET_ID = "1Drb9l4mBQt-4off4NqolYQFmamuCRi9hXlEBJeFppog"
+SPREADSHEET_ID = "ID DE SHEETS"
 
 # -- API ------------------------------------------------------
 API_BASE_URL = "https://www.sicopweb.com/SeekopAPI/adbdc/getListaProspectos"
 PAGE_SIZE    = 500
-BI_ORIGEN    = "grupokasa"  # fijo para este grupo
+BI_ORIGEN    = "ORIGEN"  # fijo para este grupo
 
 # -- Parametros fijos de consulta -----------------------------
 PARAMS_FIJOS = {
@@ -23,25 +23,25 @@ PARAMS_FIJOS = {
 # -- Reportes -------------------------------------------------
 REPORTES = {
     "GRUPOKASA": {
-        "idUsuario":            "1920000000",
-        "idDistribuidor":       "192000",
+        "idUsuario":            "0000",
+        "idDistribuidor":       "0000",
         "idDistribuidorOrigen": "096000",
     },
-   "GM DEMO CORP": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "096000"},
-"HONDA CORPORATIVO": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "101000"},
-"ACURA CORPORATIVO": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "103000"},
-"TOYOTA CORPORATIVO": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "104000"},
-"CHRYSLER": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "129000"},
-"HYUNDAI CORP": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "204000"},
-"BYD CORP": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "230000"},
-"GEELY CORPORATIVO": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "444000"},
-"HONDAKASA CORPORATIVO": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "593000"},
-"GWM CORPORATIVO": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "841000"},
-    "BUICK CORPORATIVO": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "158000"},
-"KIA CORPORATIVO": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "233000"},
-"MITSUBISHICORP CORPORATIVO": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "186000"},
- "LEAP MOTOR CORP": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "818000"},
-   "ZEEKR CORP": {"idUsuario": "1920000000", "idDistribuidor": "192000", "idDistribuidorOrigen": "514000"}   
+   "GM DEMO CORP": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "6000"},
+"HONDA CORPORATIVO": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "1000"},
+"ACURA CORPORATIVO": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "3000"},
+"TOYOTA CORPORATIVO": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "1000"},
+"CHRYSLER": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "9000"},
+"HYUNDAI CORP": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "4000"},
+"BYD CORP": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "0000"},
+"GEELY CORPORATIVO": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "4000"},
+"HONDAKASA CORPORATIVO": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "3000"},
+"GWM CORPORATIVO": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "1000"},
+    "BUICK CORPORATIVO": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "8000"},
+"KIA CORPORATIVO": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "3000"},
+"MITSUBISHICORP CORPORATIVO": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "6000"},
+ "LEAP MOTOR CORP": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "8000"},
+   "ZEEKR CORP": {"idUsuario": "0000", "idDistribuidor": "0000", "idDistribuidorOrigen": "4000"}   
 } 
 
 # -- Columnas ocultas -----------------------------------------
