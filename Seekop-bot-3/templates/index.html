@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bot Seekop</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0f1117; --surface: #1a1d27; --border: #2a2d3a;
+      --accent: #4f8ef7; --accent2: #7c6af7;
+      --success: #3ecf8e; --error: #f75f5f; --warn: #f7a94f;
+      --text: #e8eaf0; --muted: #6b7080;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg); color: var(--text);
+      min-height: 100vh; display: flex;
+      align-items: center; justify-content: center; padding: 2rem;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(79,142,247,0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(124,106,247,0.06), transparent);
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.5rem; width: 100%; max-width: 500px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    }
+    .badge {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); background: rgba(79,142,247,0.1);
+      border: 1px solid rgba(79,142,247,0.2); border-radius: 999px;
+      padding: 0.25rem 0.75rem; display: inline-block; margin-bottom: 0.75rem;
+    }
+    h1 { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.02em; }
+    h1 span {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .subtitle { color: var(--muted); font-size: 0.875rem; margin-top: 0.4rem; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 1.75rem 0; }
+    .field { margin-bottom: 1.25rem; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+    label {
+      display: block; font-size: 0.8rem; font-weight: 500;
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 0.5rem;
+    }
+    input[type="date"], textarea {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text);
+      font-family: 'DM Mono', monospace; font-size: 0.875rem;
+      padding: 0.65rem 1rem; outline: none; transition: border-color 0.2s;
+      color-scheme: dark;
+    }
+    textarea {
+      resize: vertical; min-height: 80px; font-size: 0.75rem; line-height: 1.4;
+    }
+    input[type="date"]:focus, textarea:focus { border-color: var(--accent); }
+
+    /* Guia del token */
+    .token-guide {
+      background: rgba(247,169,79,0.06);
+      border: 1px solid rgba(247,169,79,0.2);
+      border-radius: 8px; padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem; font-size: 0.8rem; color: var(--muted);
+      line-height: 1.6;
+    }
+    .token-guide strong { color: var(--warn); }
+    .token-guide ol { padding-left: 1.2rem; margin-top: 0.4rem; }
+
+    .reportes-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.75rem; }
+    .reporte-chip {
+      font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.25rem 0.6rem; color: var(--muted);
+    }
+    .btn {
+      width: 100%; padding: 0.85rem; border: none; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn:hover:not(:disabled) { opacity: 0.9; }
+    .btn:active:not(:disabled) { transform: scale(0.99); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .spinner {
+      display: none; width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+      border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .results { margin-top: 1.5rem; display: none; }
+    .results-title {
+      font-size: 0.75rem; font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.75rem;
+    }
+    .result-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 0.9rem; border-radius: 8px; margin-bottom: 0.4rem;
+      font-size: 0.88rem; animation: fadeIn 0.3s ease forwards; opacity: 0;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .result-ok  { background: rgba(62,207,142,0.08); border: 1px solid rgba(62,207,142,0.2); }
+    .result-error { background: rgba(247,95,95,0.08); border: 1px solid rgba(247,95,95,0.2); }
+    .result-name { font-family: 'DM Mono', monospace; font-weight: 500; }
+    .result-info { font-size: 0.8rem; }
+    .result-ok .result-info { color: var(--success); }
+    .result-error .result-info { color: var(--error); }
+    .global-error {
+      margin-top: 1rem; padding: 0.75rem 1rem;
+      background: rgba(247,95,95,0.08); border: 1px solid rgba(247,95,95,0.2);
+      border-radius: 8px; font-size: 0.85rem; color: var(--error); display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="badge">Automatizacion</div>
+  <h1>Bot <span>Seekop</span></h1>
+  <p class="subtitle">Sincroniza los reportes directo a Google Sheets</p>
+  <hr class="divider"/>
+
+  <div class="field-row">
+    <div>
+      <label>Fecha inicio</label>
+      <input type="date" id="fecha_inicio"/>
+    </div>
+    <div>
+      <label>Fecha fin</label>
+      <input type="date" id="fecha_fin"/>
+    </div>
+  </div>
+
+  <div class="token-guide">
+    <strong>Como obtener tu token:</strong>
+    <ol>
+      <li>Entra a <strong>rk.sicopweb.com</strong> con tu usuario</li>
+      <li>Presiona <strong>F12</strong> y ve a la pestana <strong>Red</strong></li>
+      <li>Recarga la pagina o navega a cualquier reporte</li>
+      <li>Busca la llamada <strong>aplicaciones/</strong></li>
+      <li>En <strong>Encabezados</strong> busca el campo <strong>bi_token</strong> y copialo</li>
+    </ol>
+  </div>
+
+  <div class="field">
+    <label>bi_token (de tu sesion activa en Seekop)</label>
+    <textarea id="bi_token" placeholder="Pega aqui tu bi_token..."></textarea>
+  </div>
+
+  <div class="reportes-list">
+    {% for r in reportes %}
+    <span class="reporte-chip">{{ r }}</span>
+    {% endfor %}
+  </div>
+
+  <button class="btn" id="btn" onclick="ejecutar()">
+    <span id="btn-text">Actualizar reportes</span>
+    <div class="spinner" id="spinner"></div>
+  </button>
+
+  <div class="global-error" id="global-error"></div>
+  <div class="results" id="results">
+    <div class="results-title">Resultado</div>
+    <div id="results-list"></div>
+  </div>
+</div>
+
+<script>
+  const hoy = new Date();
+  const primerDia = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  const fmt = d => d.toISOString().split('T')[0];
+  document.getElementById('fecha_inicio').value = fmt(primerDia);
+  document.getElementById('fecha_fin').value = fmt(hoy);
+
+  async function ejecutar() {
+    const fi       = document.getElementById('fecha_inicio').value;
+    const ff       = document.getElementById('fecha_fin').value;
+    const biToken  = document.getElementById('bi_token').value.trim();
+    const btn      = document.getElementById('btn');
+    const spinner  = document.getElementById('spinner');
+    const btnText  = document.getElementById('btn-text');
+    const results  = document.getElementById('results');
+    const resList  = document.getElementById('results-list');
+    const gError   = document.getElementById('global-error');
+
+    if (!fi || !ff)     { alert('Por favor selecciona ambas fechas.'); return; }
+    if (!biToken)       { alert('Por favor pega tu bi_token.'); return; }
+
+    btn.disabled = true;
+    btnText.style.display = 'none';
+    spinner.style.display = 'block';
+    results.style.display = 'none';
+    resList.innerHTML = '';
+    gError.style.display = 'none';
+
+    try {
+      const res = await fetch('/ejecutar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fecha_inicio: fi, fecha_fin: ff, bi_token: biToken })
+      });
+      const data = await res.json();
+      if (data.error) {
+        gError.textContent = data.error;
+        gError.style.display = 'block';
+      } else {
+        results.style.display = 'block';
+        data.resultados.forEach((r, i) => {
+          const div = document.createElement('div');
+          div.className = 'result-item ' + (r.ok ? 'result-ok' : 'result-error');
+          div.style.animationDelay = `${i * 0.08}s`;
+          div.innerHTML = `
+            <span class="result-name">${r.nombre}</span>
+            <span class="result-info">${r.ok ? r.registros + ' registros' : r.error}</span>`;
+          resList.appendChild(div);
+        });
+      }
+    } catch(e) {
+      gError.textContent = 'Error de conexion. Intenta de nuevo.';
+      gError.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btnText.style.display = 'block';
+      spinner.style.display = 'none';
+    }
+  }
+</script>
+</body>
+</html>
