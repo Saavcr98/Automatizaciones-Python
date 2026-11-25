@@ -1,0 +1,4 @@
+@echo off
+cd /d "C:\Users\Base de Datos\Downloads"
+python gui_autoline2.py
+pause
